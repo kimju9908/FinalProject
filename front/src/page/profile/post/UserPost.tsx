@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import striptags from "striptags";
+// import striptags from "striptags";
 
 // 게시글 DTO 타입 정의
 interface ForumPostResponseDto {
@@ -80,7 +80,7 @@ const UserPost: React.FC<{ posts: ForumPostResponseDto[] }> = ({ posts }) => {
       {posts.map((post) => (
         <Card key={post.id} onClick={() => handlePostClick(post.id)}>
           <Title>{post.title}</Title>
-          <Excerpt>{striptags(post.content).slice(0, 10)}...</Excerpt>
+          {/* <Excerpt>{striptags(post.content).slice(0, 10)}...</Excerpt> */}
           <Timestamp>{new Date(post.createdAt).toLocaleDateString()}</Timestamp>
         </Card>
       ))}
