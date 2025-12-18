@@ -1,5 +1,7 @@
 import React from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import ProfilePage from "./page/profile/ProfilePage";
 import { CheckoutPage } from "./component/payments/Checkout";
 import { SuccessPage } from "./component/payments/Succeess";
@@ -40,6 +42,17 @@ function App() {
     // 라이트 모드: bg-white, 다크 모드: bg-[#2B1D0E], 전체 화면 높이
     <div className="bg-white dark:bg-[#2B1D0E] min-h-screen transition-colors">
       <GlobalStyle />
+      <ToastContainer 
+        position="top-right" 
+        autoClose={3000} 
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <Router>
         <Routes>
           <Route path="/" element={<Layout/>}>

@@ -13,7 +13,7 @@ export default function RecipeTypeSelect() {
         <button
           onClick={() => setSelectedRecipe("food")}
           className={`px-6 py-3 rounded-lg transition ${
-            selectedRecipe === "food" ? "bg-orange-500 text-white" : "bg-gray-200"
+            selectedRecipe === "food" ? "bg-[#6a4e23] text-white" : "bg-gray-200"
           }`}
         >
           🍽 음식 레시피 추가
@@ -21,7 +21,7 @@ export default function RecipeTypeSelect() {
         <button
           onClick={() => setSelectedRecipe("cocktail")}
           className={`px-6 py-3 rounded-lg transition ${
-            selectedRecipe === "cocktail" ? "bg-blue-500 text-white" : "bg-gray-200"
+            selectedRecipe === "cocktail" ? "bg-[#6a4e23] text-white" : "bg-gray-200"
           }`}
         >
           🍸 칵테일 레시피 추가

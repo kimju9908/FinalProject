@@ -80,7 +80,7 @@ export const Button = styled.button`
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); // 쉐도우 추가
   
   &:hover {
-    background-color: #dccafc;
+    background-color: #c3a97e;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); // Hover 시 쉐도우 강조
   }
 `;

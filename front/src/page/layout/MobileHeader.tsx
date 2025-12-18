@@ -17,6 +17,7 @@ import { useState } from "react";
 import React from "react";
 import { HiMenu } from "react-icons/hi";
 import styled from "styled-components";
+import { toast } from "react-toastify";
 
 const MobileHeader = () => {
   const navigator = useNavigate();

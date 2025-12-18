@@ -13,11 +13,17 @@ import React, { useState } from "react";
 import DropdownComponent from "../../component/DropdownComponent";
 import { useLocation, useNavigate } from "react-router-dom";
 import ProfileButton from "./ProfileButton";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState, AppDispatch } from "../../context/Store";
+import { openModal } from "../../context/redux/ModalReducer";
+import { toast } from "react-toastify";
 
 const PCHeader = () => {
   const [open, setOpen] = useState<boolean>(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch<AppDispatch>();
+  const user = useSelector((state: RootState) => state.user);
 
   const menuList = [
     { path: "/main", name: "Main" },
@@ -27,7 +33,17 @@ const PCHeader = () => {
   const recipeList = [
     { name: "cocktail", fn: () => navigate("/recipe/cocktail") },
     { name: "food", fn: () => navigate("/recipe/food") },
-    { name: "Add a recipe", fn: () => navigate("/recipe/typeselect") },
+    {
+      name: "Add a recipe",
+      fn: () => {
+        if (!user || !user.id) {
+          toast.warning("로그인이 필요합니다.");
+          dispatch(openModal("login"));
+        } else {
+          navigate("/recipe/typeselect");
+        }
+      }
+    },
   ];
 
   // 로고 클릭 시 /main으로 이동

@@ -25,7 +25,6 @@ public class CommentService {
 
     private final MemberRepository memberRepository;
 
-
     @Transactional
     public boolean addComment(Long memberId, CommentReqDto commentReqDto) {
         try {
@@ -47,7 +46,6 @@ public class CommentService {
             return false;
         }
     }
-
     public boolean addReply(Long memberId, ReplyReqDto replyReqDto) {
         // 부모 댓글 찾기
         Comment parentComment = commentRepository.findById(replyReqDto.getParentCommentId())
@@ -60,28 +58,22 @@ public class CommentService {
         reply.setContent(replyReqDto.getContent());
         reply.setMember(member);  // 작성자 설정
         reply.setParentComment(parentComment);  // 부모 댓글 설정
-
         // 부모 댓글의 대댓글 목록에 추가 (수동으로 추가할 필요 없이, cascade 때문에 자동 저장됨)
         parentComment.getReplies().add(reply);
-
         // 부모 댓글을 저장하면, cascade로 대댓글도 함께 저장됨
         commentRepository.save(parentComment);  // 부모 댓글만 저장하면 대댓글도 저장됨
         return true;
     }
-
     // 레시피 아이디로 댓글 가져오기
     public Page<CommentResDto> getCommentsByRecipeId(String recipeId, Pageable pageable) {
         // 레시피 아이디로 부모 댓글만 조회하고 페이지네이션을 적용
         Page<Comment> commentsPage = commentRepository.findByRecipeIdAndParentCommentIsNull(recipeId, pageable);
-
         // 댓글과 대댓글을 포함하는 방식으로 변환
         return commentsPage.map(comment -> {
             // 부모 댓글에 대댓글을 포함시켜 반환
             return CommentResDto.fromEntity(comment);
         });
     }
-
-
     @Transactional
     public boolean deleteComment(Long memberId, Long commentId) {
         Comment comment = commentRepository.findById(commentId)
@@ -95,7 +87,6 @@ public class CommentService {
         commentRepository.delete(comment);
         return true;
     }
-
 
     @Transactional
     public boolean deleteReply(Long memberId, Long replyId) {

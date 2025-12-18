@@ -182,9 +182,7 @@ public class ElasticService {
 		};
 	}
 
-	/**
-	 * Redis에서 좋아요 및 신고 데이터를 가져와 Flask로 전송하는 메서드
-	 */
+
 	@Scheduled(fixedRate = 60000) // 60초마다 실행
 	public void updateLikesAndReports() {
 		try {
@@ -212,7 +210,6 @@ public class ElasticService {
 				connection.flushAll();  // 모든 레디스 데이터를 삭제
 				return null;
 			});
-
 			log.info("[updateLikesAndReports] All data cleared from Redis.");
 
 		} catch (Exception e) {

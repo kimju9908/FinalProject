@@ -31,15 +31,6 @@ public class TestController {
 		return redisService.getLikes("0");
 	}
 
-	/**
-	 * 일반 검색 (카테고리 필터 포함)
-	 * ex) GET /test/search?q=모히또&type=cocktail&category=롱드링크&page=1&size=10
-	 *
-	 * 변경 이유:
-	 * - 기존에는 'query' 파라미터를 요구하여 빈 검색 시 오류가 발생하였음.
-	 * - 이제 모든 검색어 관련 파라미터를 "q"로 통일하여, 클라이언트가 "q"를 전달하도록 함.
-	 * - required=false 및 defaultValue=""를 지정하여, 파라미터가 없을 경우 빈 문자열로 처리함.
-	 */
 	@GetMapping("/search")
 	public ResponseEntity<List<SearchListResDto>> search(
 			@RequestParam(name = "q", required = false, defaultValue = "") String q,

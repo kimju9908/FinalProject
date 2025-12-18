@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../context/Store";
 import {
@@ -40,6 +40,14 @@ const LoginModal = () => {
   const [inputEmail, setInputEmail] = useState<string>("");
   const [inputPw, setInputPw] = useState<string>("");
 
+  // 모달이 닫힐 때 입력값 초기화
+  useEffect(() => {
+    if (!loginModal) {
+      setInputEmail("");
+      setInputPw("");
+    }
+  }, [loginModal]);
+
 
   const SNS_SIGN_IN_URL = (type: SNSLoginType) =>
     `${Commons.BASE_URL}/api/v1/auth/oauth2/${type}`;
@@ -77,7 +85,17 @@ const LoginModal = () => {
       if (axios.isAxiosError(err)) {
         console.log("로그인 에러 : ", err);
 
-        if (err.response?.status === 405) {
+        // 400 Bad Request - 백엔드에서 보낸 에러 메시지 표시
+        if (err.response?.status === 400) {
+          const errorMessage = err.response?.data || "로그인에 실패하였습니다.";
+          console.log("로그인 실패:", errorMessage);
+          dispatch(
+            setRejectModal({
+              message: errorMessage,
+              onCancel: () => {},
+            })
+          );
+        } else if (err.response?.status === 405) {
           console.log("로그인 실패: 405 Unauthorized");
           dispatch(
             setRejectModal({

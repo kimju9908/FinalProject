@@ -104,7 +104,7 @@ public class AuthService {
 		try {
 			log.warn("받아온 데이터{}", loginDto);
 			Member member = memberRepository.findByEmail(loginDto.getEmail())
-					.orElseThrow(() -> new RuntimeException("존재하지 않는 이메일입니다."));
+					.orElseThrow(() -> new RuntimeException("이메일 또는 비밀번호가 일치하지 않습니다."));
 
 			// 회원의 membership 상태 확인
 			if (member.getAuthority() == Authority.REST_USER) {
@@ -120,9 +120,16 @@ public class AuthService {
 			TokenDto token = tokenProvider.generateTokenDto(authentication);
 			refreshTokenSave(member, token);
 			return token;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
+			// 이미 정의된 메시지가 있는 경우 그대로 전달
+			String message = e.getMessage();
+			if (message != null && (message.contains("이메일") || message.contains("비밀번호") || message.contains("탈퇴"))) {
+				log.error("로그인 실패 : {}", message);
+				throw e;
+			}
+			// 비밀번호 불일치 등 다른 인증 오류
 			log.error("로그인 중 에러 발생 : ", e);
-			throw new RuntimeException("로그인 중 에러 발생", e);
+			throw new RuntimeException("이메일 또는 비밀번호가 일치하지 않습니다.");
 		}
 	}
 

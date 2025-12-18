@@ -115,10 +115,15 @@ public ResponseEntity<String> signup(
 		
 		// 로그인
 		@PostMapping("/login")
-		public ResponseEntity<TokenDto> login(@RequestBody LoginDto loginDto) {
-			TokenDto tokenDto = authService.login(loginDto);
-			log.info("tokenDto : {}", tokenDto);
-			return ResponseEntity.ok(tokenDto);
+		public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
+			try {
+				TokenDto tokenDto = authService.login(loginDto);
+				log.info("tokenDto : {}", tokenDto);
+				return ResponseEntity.ok(tokenDto);
+			} catch (RuntimeException e) {
+				log.error("로그인 실패: {}", e.getMessage());
+				return ResponseEntity.badRequest().body(e.getMessage());
+			}
 		}
 		
 		@PostMapping("/change/password")

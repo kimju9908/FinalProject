@@ -10,46 +10,46 @@ import {Container} from "../Style";
 
 
 const InputField = styled.input`
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  border-radius: 20px;
-  box-sizing: border-box;
-  font-size: 16px;
-    border: 1px solid #dccafc;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  &:focus {
-      border-color: #a16eff;
-      outline: none;
-      box-shadow: 0 0 4px rgba(161, 110, 255, 0.5);
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 20px;
+    box-sizing: border-box;
+    font-size: 16px;
+    border: 1px solid #d1b6a3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    &:focus {
+        border-color: #d1b6a3;
+        outline: none;
+     
     }
 `;
+
 const TimerText = styled.p`
-  color: red;
-  font-size: 14px;
-  margin-top: 5px;
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
 `;
 
 const Button = styled.button`
-  width: 100%;
-  padding: 12px;
-  background-color:#5f53d3;
-  color: white;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-  font-size: 16px;
-  margin-top: 10px;
-  
+    width: 100%;
+    padding: 12px;
+    background-color: #6a4e23;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
 
-  &:hover {
-    background-color: #dccafc;
-  }
+    &:hover {
+        background-color: #6a4e23;
+    }
 
-  &:disabled {
-    background-color: #dccafc;
-    cursor: not-allowed;
-  }
+    &:disabled {
+        background-color: #d1b6a3;
+        cursor: not-allowed;
+    }
 `;
 
 
@@ -62,6 +62,21 @@ const FindIdModal = () => {
   const [isSendingCode, setIsSendingCode] = useState(false);
   const [countdown, setCountdown] = useState(0); // 5분 타이머 (초 단위)
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // 모달이 닫힐 때 입력값 초기화
+  useEffect(() => {
+    if (!findId) {
+      setPhone("");
+      setInputCode("");
+      setIsCodeSent(false);
+      setIsSendingCode(false);
+      setCountdown(0);
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
+    }
+  }, [findId]);
 
   useEffect(() => {
     if (isCodeSent && countdown > 0) {
