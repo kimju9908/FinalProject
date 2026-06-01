@@ -24,8 +24,8 @@ services:
 
   flask:
     build:
-      context: ../flask
-    container_name: flask_app
+      context: ../fastapi
+    container_name: fastapi_app
     ports:
       - "5001:5000"
     depends_on:
@@ -42,7 +42,7 @@ services:
 
   rq-worker:
     build:
-      context: ../flask  # Flask와 동일한 이미지 사용
+      context: ../fastapi  # FastAPI와 동일한 이미지 사용
     container_name: rq_worker
     depends_on:
       - redis

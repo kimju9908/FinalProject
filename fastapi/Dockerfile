@@ -12,5 +12,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 # 나머지 파일 복사
 COPY . /app/
 
-# Flask 앱 실행
-CMD ["python", "app.py"]
+# FastAPI 앱 실행 (uvicorn)
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "5000"]

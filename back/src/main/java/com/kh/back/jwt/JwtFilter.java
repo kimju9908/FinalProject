@@ -35,9 +35,7 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-
         String jwt = resolveToken(request);
-
         if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
             // 블랙리스트 등록된 토큰(로그아웃된 토큰)은 인증 처리하지 않음
             if (blacklistService.isBlacklisted(jwt)) {
